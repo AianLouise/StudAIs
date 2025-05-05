@@ -42,7 +42,18 @@ const RegisterPage = () => {
     };
 
     return (
-        <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
+        <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 relative">
+            {/* Logo Placeholder */}
+            <div className="absolute top-4 left-4">
+                <a href="/">
+                    <img
+                        src="https://placehold.co/250x50"
+                        alt="Logo Placeholder"
+                        className="rounded-full"
+                    />
+                </a>
+            </div>
+
             {/* Left side: Registration form */}
             <div className="bg-white flex flex-col items-center justify-center p-8">
                 <h1 className="text-center text-gray-800 text-2xl font-bold mb-6">
@@ -104,9 +115,11 @@ const RegisterPage = () => {
 
             {/* Right side: Image placeholder */}
             <div className="bg-slate-500 flex items-center justify-center">
-                <div className="w-3/4 h-3/4 bg-gray-300 flex items-center justify-center">
-                    <p className="text-white text-lg">Image Placeholder</p>
-                </div>
+                <img
+                    src="https://placehold.co/300x300"
+                    alt="Image Placeholder"
+                    className="w-3/4 h-3/4 object-cover"
+                />
             </div>
         </div>
     );
