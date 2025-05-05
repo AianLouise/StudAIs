@@ -42,75 +42,73 @@ const LoginPage = () => {
     };
 
     return (
-        <>
-            <div className="min-h-screen grid grid-cols-2">
-                {/* Left side: Image placeholder */}
-                <div className="bg-slate-500 flex items-center justify-center">
-                    <div className="w-3/4 h-3/4 bg-gray-300 flex items-center justify-center">
-                        <p className="text-white text-lg">Image Placeholder</p>
-                    </div>
-                </div>
-
-                {/* Right side: Login form */}
-                <div className="bg-white flex flex-col items-center justify-center p-8">
-                    <h1 className="text-center text-gray-800 text-2xl font-bold mb-6">
-                        Login to StudAIs
-                    </h1>
-                    <form onSubmit={handleLogin} className="w-full max-w-md">
-                        <div className="mb-4">
-                            <Label htmlFor="username" className="mb-2 text-gray-700">
-                                Username
-                            </Label>
-                            <Input
-                                type="text"
-                                id="username"
-                                placeholder="Enter your username"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                aria-label="Username"
-                                required
-                            />
-                        </div>
-                        <div className="mb-6">
-                            <Label htmlFor="password" className="mb-2 text-gray-700">
-                                Password
-                            </Label>
-                            <div className="relative">
-                                <Input
-                                    type={isPasswordVisible ? "text" : "password"} // Toggle input type
-                                    id="password"
-                                    placeholder="Enter your password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    aria-label="Password"
-                                    required
-                                />
-                                <button
-                                    type="button"
-                                    className="absolute inset-y-0 right-3 flex items-center text-gray-600 hover:text-gray-800"
-                                    onClick={() => setIsPasswordVisible(!isPasswordVisible)} // Toggle visibility
-                                >
-                                    {isPasswordVisible ? (
-                                        <EyeClosedIcon className="h-4 w-4" />
-                                    ) : (
-                                        <EyeOpenIcon className="h-4 w-4" />
-                                    )}
-                                </button>
-                            </div>
-                        </div>
-                        <Button type="submit" className="w-full" disabled={isLoading}>
-                            {isLoading ? "Logging in..." : "Login"}
-                        </Button>
-                    </form>
-                    <p className="text-center mt-4">
-                        Don't have an account?{" "}
-                        <a href="/register" className="text-slate-600 hover:underline">
-                            Register here
-                        </a>
-                    </p>
+        <div className="min-h-screen grid grid-cols-2">
+            {/* Left side: Image placeholder */}
+            <div className="bg-slate-500 flex items-center justify-center">
+                <div className="w-3/4 h-3/4 bg-gray-300 flex items-center justify-center">
+                    <p className="text-white text-lg">Image Placeholder</p>
                 </div>
             </div>
-        </>
+
+            {/* Right side: Login form */}
+            <div className="bg-white flex flex-col items-center justify-center p-8">
+                <h1 className="text-center text-gray-800 text-2xl font-bold mb-6">
+                    Login to StudAIs
+                </h1>
+                <form onSubmit={handleLogin} className="w-full max-w-md">
+                    <div className="mb-4">
+                        <Label htmlFor="username" className="mb-2 text-gray-700">
+                            Username
+                        </Label>
+                        <Input
+                            type="text"
+                            id="username"
+                            placeholder="Enter your username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            aria-label="Username"
+                            required
+                        />
+                    </div>
+                    <div className="mb-6">
+                        <Label htmlFor="password" className="mb-2 text-gray-700">
+                            Password
+                        </Label>
+                        <div className="relative">
+                            <Input
+                                type={isPasswordVisible ? "text" : "password"} // Toggle input type
+                                id="password"
+                                placeholder="Enter your password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                aria-label="Password"
+                                required
+                            />
+                            <button
+                                type="button"
+                                className="absolute inset-y-0 right-3 flex items-center text-gray-600 hover:text-gray-800"
+                                onClick={() => setIsPasswordVisible(!isPasswordVisible)} // Toggle visibility
+                            >
+                                {isPasswordVisible ? (
+                                    <EyeClosedIcon className="h-4 w-4" />
+                                ) : (
+                                    <EyeOpenIcon className="h-4 w-4" />
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                    <Button type="submit" className="w-full" disabled={isLoading}>
+                        {isLoading ? "Logging in..." : "Login"}
+                    </Button>
+                </form>
+                <p className="text-center mt-4">
+                    Don't have an account?{" "}
+                    <a href="/register" className="text-slate-600 hover:underline">
+                        Register here
+                    </a>
+                </p>
+            </div>
+        </div>
     );
 };
 
