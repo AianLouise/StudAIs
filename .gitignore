@@ -1,0 +1,16 @@
+# Django
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+static/
+
+# Node.js/Next.js
+node_modules/
+.next/
+.env
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
