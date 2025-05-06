@@ -1,5 +1,7 @@
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"; // Import sidebar components
+import { AppSidebar } from "@/components/app-sidebar"; // Import the sidebar component
+
 import type { Metadata } from "next";
-import { Toaster } from "sonner"; // Import Toaster from sonner
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -9,9 +11,15 @@ export const metadata: Metadata = {
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="dashboard-layout">
-            <Toaster position="top-right" />
-            <div className="dashboard-content">{children}</div>
-        </div>
+        <SidebarProvider>
+            <div className="dashboard-layout flex">
+                <AppSidebar />
+                <main className="dashboard-content flex-1 p-4">
+                    {/* Sidebar trigger button can be placed here */}
+                    <SidebarTrigger />
+                    {children}
+                </main>
+            </div>
+        </SidebarProvider>
     );
 }

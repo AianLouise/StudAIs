@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    'rest_framework_simplejwt',
+    
+    # Add your apps here
     'authentication',
     'dashboard',
 ]
@@ -72,6 +75,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'StudAIs.wsgi.application'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
 
 # Allow requests from specific origins
 CORS_ALLOWED_ORIGINS = [

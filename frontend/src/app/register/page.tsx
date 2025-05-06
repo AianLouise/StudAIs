@@ -1,128 +1,56 @@
-"use client"; // Mark this as a Client Component
+"use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import Head from "next/head";
-import { Toaster, toast } from "sonner"; // Import Sonner
-import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons"; // Import Radix Icons
+import { BrainCircuit } from "lucide-react";
 
-const RegisterPage = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State for password visibility
-    const [isLoading, setIsLoading] = useState(false);
+import { RegisterForm } from "@/components/register-form";
+
+export default function RegisterPage() {
     const router = useRouter();
+    const [isChecking, setIsChecking] = useState(true); // State to track loading
 
-    const handleRegister = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsLoading(true);
-
-        try {
-            const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/auth/register/`,
-                {
-                    username,
-                    password,
-                }
-            );
-
-            toast.success("Registration Successful! Redirecting to login...");
-            setTimeout(() => router.push("/login"), 2000); // Redirect to login page after 2 seconds
-        } catch (err: any) {
-            const errorMessage =
-                err.response?.data?.error || "An error occurred. Please try again.";
-            toast.error(`Registration Failed: ${errorMessage}`);
-        } finally {
-            setIsLoading(false);
+    useEffect(() => {
+        const accessToken = localStorage.getItem("access_token");
+        if (accessToken) {
+            router.push("/dashboard"); // Redirect to the dashboard if already logged in
+        } else {
+            setIsChecking(false); // Stop loading if no token is found
         }
-    };
+    }, [router]);
+
+    if (isChecking) {
+        return (
+            <div className="flex min-h-screen items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-primary"></div>
+            </div>
+        );
+    }
 
     return (
-        <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 relative">
-            {/* Logo Placeholder */}
-            <div className="absolute top-4 left-4">
-                <a href="/">
-                    <img
-                        src="https://placehold.co/250x50"
-                        alt="Logo Placeholder"
-                        className="rounded-full"
-                    />
-                </a>
-            </div>
-
-            {/* Left side: Registration form */}
-            <div className="bg-white flex flex-col items-center justify-center p-8">
-                <h1 className="text-center text-gray-800 text-2xl font-bold mb-6">
-                    Register for StudAIs
-                </h1>
-                <form onSubmit={handleRegister} className="w-full max-w-md">
-                    <div className="mb-4">
-                        <Label htmlFor="username" className="mb-2 text-gray-700">
-                            Username
-                        </Label>
-                        <Input
-                            type="text"
-                            id="username"
-                            placeholder="Enter your username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            aria-label="Username"
-                            required
-                        />
-                    </div>
-                    <div className="mb-6">
-                        <Label htmlFor="password" className="mb-2 text-gray-700">
-                            Password
-                        </Label>
-                        <div className="relative">
-                            <Input
-                                type={isPasswordVisible ? "text" : "password"} // Toggle input type
-                                id="password"
-                                placeholder="Enter your password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                aria-label="Password"
-                                required
-                            />
-                            <button
-                                type="button"
-                                className="absolute inset-y-0 right-3 flex items-center text-gray-600 hover:text-gray-800"
-                                onClick={() => setIsPasswordVisible(!isPasswordVisible)} // Toggle visibility
-                            >
-                                {isPasswordVisible ? (
-                                    <EyeClosedIcon className="h-5 w-5" />
-                                ) : (
-                                    <EyeOpenIcon className="h-5 w-5" />
-                                )}
-                            </button>
+        <div className="grid min-h-screen lg:grid-cols-2">
+            <div className="flex flex-col gap-4 p-6 md:p-10">
+                <div className="flex justify-center gap-2 md:justify-start">
+                    <a href="/" className="flex items-center gap-2 font-medium">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
+                            <BrainCircuit className="size-4" />
                         </div>
-                    </div>
-                    <Button type="submit" className="w-full" disabled={isLoading}>
-                        {isLoading ? "Registering..." : "Register"}
-                    </Button>
-                </form>
-                <p className="text-center mt-4">
-                    Already have an account?{" "}
-                    <a href="/login" className="text-slate-600 hover:underline">
-                        Login here
+                        StudAIs
                     </a>
-                </p>
+                </div>
+                <div className="flex flex-1 items-center justify-center">
+                    <div className="w-full max-w-xs">
+                        <RegisterForm />
+                    </div>
+                </div>
             </div>
-
-            {/* Right side: Image placeholder */}
-            <div className="bg-slate-500 flex items-center justify-center">
+            <div className="relative hidden bg-muted lg:block">
                 <img
-                    src="https://placehold.co/300x300"
+                    src="/placeholder.svg"
                     alt="Image Placeholder"
-                    className="w-3/4 h-3/4 object-cover"
+                    className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
                 />
             </div>
         </div>
     );
-};
-
-export default RegisterPage;
+}
