@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     # Add your apps here
     'authentication',
     'dashboard',
+    'askQuestions',
 ]
 
 MIDDLEWARE = [
@@ -89,6 +90,9 @@ REST_FRAMEWORK = {
 
 # Allow requests from specific origins
 CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
+
+# OpenRouter API Key
+OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY')
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases

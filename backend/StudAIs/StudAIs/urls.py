@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('authentication.urls')),  # Include authentication URLs
     path('', include('dashboard.urls')),  # Include dashboard URLs
+    path('', include('askQuestions.urls')),  # Include askQuestions URLs
 ]
