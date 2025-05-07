@@ -1,5 +1,5 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"; // Import sidebar components
-import { AppSidebar } from "@/components/app-sidebar"; // Import the sidebar component
+import { AppSidebar } from "@/components/app-sidebar/app-sidebar"; // Import the sidebar component
 
 import type { Metadata } from "next";
 import "../globals.css";

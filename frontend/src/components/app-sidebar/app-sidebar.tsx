@@ -11,8 +11,8 @@ import {
     BrainCircuit,
 } from "lucide-react";
 
-import { NavMain } from "@/components/nav-main";
-import { NavUser } from "@/components/nav-user";
+import { NavMain } from "@/components/app-sidebar/nav-main";
+import { NavUser } from "@/components/app-sidebar/nav-user";
 import {
     Sidebar,
     SidebarContent,
@@ -55,6 +55,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 });
             } catch (error) {
                 toast.error("Failed to fetch user details. Please log in again.");
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("refresh_token");
+                
                 router.push("/login"); // Redirect to login if fetching fails
             }
         };
@@ -94,7 +97,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             asChild
                             className="data-[slot=sidebar-menu-button]:!p-1.5"
                         >
-                            <a href="#">
+                            <a href="/">
                                 <BrainCircuit className="h-5 w-5" />
                                 <span className="text-base font-semibold">StudAIs</span>
                             </a>
