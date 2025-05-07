@@ -9,6 +9,10 @@ import {
     FolderIcon,
     UsersIcon,
     BrainCircuit,
+    ClipboardListIcon,
+    TrendingUpIcon,
+    FileTextIcon,
+    HelpCircleIcon,
 } from "lucide-react";
 
 import { NavMain } from "@/components/app-sidebar/nav-main";
@@ -57,7 +61,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 toast.error("Failed to fetch user details. Please log in again.");
                 localStorage.removeItem("access_token");
                 localStorage.removeItem("refresh_token");
-                
+
                 router.push("/login"); // Redirect to login if fetching fails
             }
         };
@@ -68,23 +72,28 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const navMain = [
         {
             title: "Dashboard",
-            url: "#",
+            url: "/dashboard",
             icon: LayoutDashboardIcon,
         },
         {
-            title: "Lifecycle",
-            url: "#",
-            icon: ListIcon,
+            title: "Ask Questions",
+            url: "/ask-questions",
+            icon: HelpCircleIcon, // Icon representing help or questions
         },
         {
-            title: "Projects",
+            title: "Summarize Notes",
             url: "#",
-            icon: FolderIcon,
+            icon: FileTextIcon, // Icon representing text or notes
         },
         {
-            title: "Team",
+            title: "Quizzes",
             url: "#",
-            icon: UsersIcon,
+            icon: ClipboardListIcon, // Icon representing quizzes or tasks
+        },
+        {
+            title: "Progress Tracker",
+            url: "#",
+            icon: TrendingUpIcon, // Icon representing progress or growth
         },
     ];
 
