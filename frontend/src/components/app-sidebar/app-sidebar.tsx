@@ -2,12 +2,7 @@
 
 import * as React from "react";
 import {
-    ArrowUpCircleIcon,
-    BarChartIcon,
     LayoutDashboardIcon,
-    ListIcon,
-    FolderIcon,
-    UsersIcon,
     BrainCircuit,
     ClipboardListIcon,
     TrendingUpIcon,
@@ -59,8 +54,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 });
             } catch (error) {
                 toast.error("Failed to fetch user details. Please log in again.");
-                localStorage.removeItem("access_token");
-                localStorage.removeItem("refresh_token");
+                // localStorage.removeItem("access_token");
+                // localStorage.removeItem("refresh_token");
 
                 router.push("/login"); // Redirect to login if fetching fails
             }
