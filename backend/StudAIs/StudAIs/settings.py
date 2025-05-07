@@ -10,7 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-4&@+4&i((favilb!e#+#za%#h4d@8pt1&^=$frza!emfyw%27c'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 
 # Application definition
@@ -83,9 +88,7 @@ REST_FRAMEWORK = {
 }
 
 # Allow requests from specific origins
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',  # Allow requests from your Next.js frontend
-]
+CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -93,11 +96,11 @@ CORS_ALLOWED_ORIGINS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'studais',  # Replace with your database name
-        'USER': 'root',  # Replace with your database user
-        'PASSWORD': 'Aianlouise',  # Replace with your database password
-        'HOST': 'localhost',  # Replace with your database host, e.g., '127.0.0.1'
-        'PORT': '3306',  # Replace with your database port, default is 3306
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('DATABASE_HOST'),
+        'PORT': os.getenv('DATABASE_PORT', '3306'),
     }
 }
 
