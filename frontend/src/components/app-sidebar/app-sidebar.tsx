@@ -54,7 +54,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     avatar: "", // Update this if the API provides an avatar URL
                 });
             } catch (error) {
-                toast.error("Failed to fetch user details. Please log in again.");
+                toast.error("Session expired. Please log in again.");
+
+                Cookies.remove("access_token"); // Clear the access token
+                Cookies.remove("refresh_token"); // Clear the refresh token
 
                 router.push("/login"); // Redirect to login if fetching fails
             }
