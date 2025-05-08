@@ -25,6 +25,7 @@ import {
 import axios from "axios";
 import { toast } from "sonner"; // Import toast for notifications
 import { useRouter } from "next/navigation"; // Import useRouter
+import Cookies from "js-cookie"; // Import js-cookie for cookie management
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const [user, setUser] = React.useState({
@@ -42,7 +43,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/auth/get-user-details/`,
                     {
                         headers: {
-                            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+                            Authorization: `Bearer ${Cookies.get("access_token")}`, // Retrieve token from cookies
                         },
                     }
                 );
@@ -54,8 +55,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 });
             } catch (error) {
                 toast.error("Failed to fetch user details. Please log in again.");
-                // localStorage.removeItem("access_token");
-                // localStorage.removeItem("refresh_token");
 
                 router.push("/login"); // Redirect to login if fetching fails
             }

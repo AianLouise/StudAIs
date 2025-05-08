@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/sidebar";
 
 import { toast } from "sonner"; // Import toast from Sonner
+import Cookies from "js-cookie"; // Import js-cookie for cookie management
 
 export function NavUser({
     user,
@@ -45,16 +46,16 @@ export function NavUser({
     const router = useRouter(); // Initialize router
 
     const handleLogout = () => {
-        // Clear tokens from localStorage
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-
-        // Show a toast notification
-        toast.success("You have been logged out successfully.");
-
-        // Redirect to login page
-        router.push("/login");
-    };
+            // Clear tokens from cookies
+            Cookies.remove("access_token");
+            Cookies.remove("refresh_token");
+    
+            // Show a toast notification
+            toast.success("You have been logged out successfully.");
+    
+            // Redirect to login page
+            router.push("/login");
+        };
 
     // Generate initials from the user's name
     const getInitials = (name: string) => {

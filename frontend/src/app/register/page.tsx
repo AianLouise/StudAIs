@@ -5,13 +5,14 @@ import { useRouter } from "next/navigation";
 import { BrainCircuit } from "lucide-react";
 
 import { RegisterForm } from "@/components/register-form";
+import Cookies from "js-cookie"; // Import js-cookie for cookie management
 
 export default function RegisterPage() {
     const router = useRouter();
     const [isChecking, setIsChecking] = useState(true); // State to track loading
 
     useEffect(() => {
-        const accessToken = localStorage.getItem("access_token");
+        const accessToken = Cookies.get("access_token"); // Check for access token in cookies
         if (accessToken) {
             router.push("/dashboard"); // Redirect to the dashboard if already logged in
         } else {

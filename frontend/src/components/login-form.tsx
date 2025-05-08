@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Cookies from "js-cookie"; // Import js-cookie for cookie management
 
 export function LoginForm({
     className,
@@ -35,9 +36,9 @@ export function LoginForm({
 
             const { access, refresh } = response.data.tokens;
 
-            // Store the JWT tokens in localStorage
-            localStorage.setItem("access_token", access);
-            localStorage.setItem("refresh_token", refresh);
+            // Store the JWT tokens in cookies
+            Cookies.set("access_token", access, { expires: 7, secure: true });
+            Cookies.set("refresh_token", refresh, { expires: 7, secure: true });
 
             toast.success("Login Successful! Redirecting to your dashboard...");
             router.push("/dashboard"); // Redirect to the dashboard

@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner"; // Import Sonner
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons"; // Import Radix Icons
+import Cookies from "js-cookie"; // Import js-cookie for cookie management
 
 export function RegisterForm() {
     const [firstname, setFirstname] = useState("");
@@ -47,9 +48,9 @@ export function RegisterForm() {
 
             const { access, refresh } = response.data.tokens;
 
-            // Store the JWT tokens in localStorage
-            localStorage.setItem("access_token", access);
-            localStorage.setItem("refresh_token", refresh);
+            // Store the JWT tokens in cookies
+            Cookies.set("access_token", access, { expires: 7, secure: true });
+            Cookies.set("refresh_token", refresh, { expires: 7, secure: true });
 
             toast.success("Registration Successful! Redirecting to your dashboard...");
             setTimeout(() => router.push("/dashboard"), 2000); // Redirect to dashboard after 2 seconds
