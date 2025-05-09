@@ -54,7 +54,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     email: email,
                     avatar: "", // Update this if the API provides an avatar URL
                 });
-            } catch (error) {
+            } catch {
                 toast.error("Session expired. Please log in again.");
 
                 Cookies.remove("access_token"); // Clear the access token

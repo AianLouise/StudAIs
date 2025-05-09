@@ -57,8 +57,19 @@ export function RegisterForm() {
             setTimeout(() => router.push("/dashboard"), 2000); // Redirect to dashboard after 2 seconds
         } catch (err: unknown) {
             let errorMessage = "An error occurred. Please try again.";
-            if (err && typeof err === "object" && "response" in err && err.response && typeof err.response === "object" && "data" in err.response && err.response.data && typeof err.response.data === "object" && "error" in err.response.data) {
-                errorMessage = (err.response as any).data.error;
+            if (
+                err &&
+                typeof err === "object" &&
+                "response" in err &&
+                err.response &&
+                typeof err.response === "object" &&
+                "data" in err.response &&
+                err.response.data &&
+                typeof err.response.data === "object" &&
+                "error" in err.response.data &&
+                typeof (err.response.data as { error?: unknown }).error === "string"
+            ) {
+                errorMessage = (err.response.data as { error: string }).error;
             }
             toast.error(`Registration Failed: ${errorMessage}`);
         } finally {

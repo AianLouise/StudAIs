@@ -44,8 +44,19 @@ export function LoginForm({
             router.push("/dashboard"); // Redirect to the dashboard
         } catch (err: unknown) {
             let errorMessage = "An error occurred. Please try again.";
-            if (err && typeof err === "object" && "response" in err && err.response && typeof err.response === "object" && "data" in err.response && err.response.data && typeof err.response.data === "object" && "error" in err.response.data) {
-                errorMessage = (err.response as any).data.error;
+            if (
+                err &&
+                typeof err === "object" &&
+                "response" in err &&
+                err.response &&
+                typeof err.response === "object" &&
+                "data" in err.response &&
+                err.response.data &&
+                typeof err.response.data === "object" &&
+                "error" in err.response.data &&
+                typeof (err.response.data as { error?: unknown }).error === "string"
+            ) {
+                errorMessage = (err.response.data as { error: string }).error;
             }
             toast.error(`Login Failed: ${errorMessage}`);
         } finally {

@@ -60,7 +60,7 @@ const AskQuestions = () => {
 
             setMessages((prevMessages) => [...prevMessages, aiMessage]);
             setQuestion("");
-        } catch (err) {
+        } catch {
             setError("Error occurred while fetching the response.");
             toast.error("Failed to get response from AI");
         } finally {
@@ -79,7 +79,7 @@ const AskQuestions = () => {
         try {
             await navigator.clipboard.writeText(text);
             toast.success("Message copied to clipboard!");
-        } catch (err) {
+        } catch {
             toast.error("Failed to copy message");
         }
     };
@@ -180,7 +180,7 @@ const AskQuestions = () => {
                                         <ReactMarkdown
                                             remarkPlugins={[remarkGfm]}
                                             components={{
-                                                p: ({ node, ...props }) => (
+                                                p: (props) => (
                                                     <p className="whitespace-pre-line" {...props} />
                                                 ),
                                             }}

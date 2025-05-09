@@ -73,7 +73,7 @@ const Testimonial4 = () => {
                         <Card>
                             <CardContent className="px-6 pt-6 leading-7 text-foreground/70">
                                 <q>
-                                    StudAIs makes learning accessible and affordable. It's the perfect companion for students on a budget.
+                                    StudAIs makes learning accessible and affordable. It&apos;s the perfect companion for students on a budget.
                                 </q>
                             </CardContent>
                             <CardFooter>
