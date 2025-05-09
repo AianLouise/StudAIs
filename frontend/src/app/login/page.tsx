@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BrainCircuit } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
 
 import { LoginForm } from "@/components/login-form";
 import Cookies from "js-cookie"; // Import js-cookie for cookie management
@@ -32,12 +34,12 @@ export default function LoginPage() {
         <div className="grid min-h-screen lg:grid-cols-2">
             <div className="flex flex-col gap-4 p-6 md:p-10">
                 <div className="flex justify-center gap-2 md:justify-start">
-                    <a href="/" className="flex items-center gap-2 font-medium">
+                    <Link href="/" className="flex items-center gap-2 font-medium">
                         <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
                             <BrainCircuit className="size-4" />
                         </div>
                         StudAIs
-                    </a>
+                    </Link>
                 </div>
                 <div className="flex flex-1 items-center justify-center">
                     <div className="w-full max-w-xs">
@@ -46,10 +48,11 @@ export default function LoginPage() {
                 </div>
             </div>
             <div className="relative hidden bg-muted lg:block">
-                <img
+                <Image
                     src="/placeholder.svg"
                     alt="Image Placeholder"
-                    className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+                    fill
+                    className="object-cover absolute inset-0 h-full w-full dark:brightness-[0.2] dark:grayscale"
                 />
             </div>
         </div>

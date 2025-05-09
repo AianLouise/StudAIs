@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Copy, Edit2, Trash2, ThumbsUp, MessageSquare } from "lucide-react";
+import { Copy, Edit2, Trash2, ThumbsUp } from "lucide-react";
 import { toast } from "sonner";
 
 interface Message {

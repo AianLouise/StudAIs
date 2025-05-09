@@ -1,5 +1,6 @@
-import { ArrowRight, ArrowUpRight, BrainCircuit } from "lucide-react";
-
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -62,22 +63,24 @@ const Hero1 = ({
                         <div className="flex w-full flex-col justify-center gap-2 sm:flex-row lg:justify-start">
                             {buttons?.primary && (
                                 <Button asChild className="w-full sm:w-auto">
-                                    <a href={buttons.primary.url}>{buttons.primary.text}</a>
+                                    <Link href={buttons.primary.url}>{buttons.primary.text}</Link>
                                 </Button>
                             )}
                             {buttons?.secondary && (
                                 <Button asChild variant="outline" className="w-full sm:w-auto">
-                                    <a href={buttons.secondary.url}>
+                                    <Link href={buttons.secondary.url}>
                                         {buttons.secondary.text}
                                         <ArrowRight className="size-4" />
-                                    </a>
+                                    </Link>
                                 </Button>
                             )}
                         </div>
                     </div>
-                    <img
+                    <Image
                         src={image.src}
                         alt={image.alt}
+                        width={384}
+                        height={384}
                         className="max-h-96 w-full rounded-md object-fill"
                     />
                 </div>

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Cta11 = () => {
     const heading = "Transform Your Study Experience";
@@ -28,12 +29,12 @@ const Cta11 = () => {
                     <div className="flex w-full flex-col justify-center gap-2 sm:flex-row">
                         {buttons.secondary && (
                             <Button variant="outline" className="w-full sm:w-auto" asChild>
-                                <a href={buttons.secondary.url}>{buttons.secondary.text}</a>
+                                <Link href={buttons.secondary.url}>{buttons.secondary.text}</Link>
                             </Button>
                         )}
                         {buttons.primary && (
                             <Button className="w-full sm:w-auto" asChild>
-                                <a href={buttons.primary.url}>{buttons.primary.text}</a>
+                                <Link href={buttons.primary.url}>{buttons.primary.text}</Link>
                             </Button>
                         )}
                     </div>

@@ -1,4 +1,6 @@
 import { Instagram, Facebook, Twitter, Linkedin } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
 
 const sections = [
     {
@@ -54,14 +56,16 @@ const Footer7 = ({
                     <div className="flex w-full flex-col items-center justify-between gap-6 lg:items-start">
                         {/* Logo */}
                         <div className="flex items-center gap-2 lg:justify-start">
-                            <a href={logo.url}>
-                                <img
+                            <Link href={logo.url}>
+                                <Image
                                     src={logo.src}
                                     alt={logo.alt}
                                     title={logo.title}
-                                    className="h-8"
+                                    width={32}
+                                    height={32}
+                                    className="h-8 w-auto"
                                 />
-                            </a>
+                            </Link>
                             <h2 className="text-xl font-semibold">{logo.title}</h2>
                         </div>
                         <p className="text-sm text-muted-foreground">

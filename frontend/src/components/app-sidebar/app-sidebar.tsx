@@ -9,6 +9,7 @@ import {
     FileTextIcon,
     HelpCircleIcon,
 } from "lucide-react";
+import Link from "next/link";
 
 import { NavMain } from "@/components/app-sidebar/nav-main";
 import { NavUser } from "@/components/app-sidebar/nav-user";
@@ -103,10 +104,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             asChild
                             className="data-[slot=sidebar-menu-button]:!p-1.5"
                         >
-                            <a href="/">
+                            <Link href="/">
                                 <BrainCircuit className="h-5 w-5" />
                                 <span className="text-base font-semibold">StudAIs</span>
-                            </a>
+                            </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>
