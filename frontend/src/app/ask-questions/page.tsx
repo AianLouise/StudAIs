@@ -26,38 +26,38 @@ const AskQuestions = () => {
     const [error, setError] = useState<string | null>(null);
     const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
 
-    const handleSubmit = async (e?: React.FormEvent) => {
+        const handleSubmit = async (e?: React.FormEvent) => {
         if (e) e.preventDefault();
-
+    
         if (!question.trim()) {
             toast.error("Please enter a question.");
             return;
         }
-
+    
         const newMessage: Message = {
             id: Date.now().toString(),
             role: "user",
             content: question,
             reactions: []
         };
-
+    
         setMessages([...messages, newMessage]);
         setLoading(true);
         setError(null);
-
+    
         try {
-            const apiUrl = "http://127.0.0.1:8000/api/ask-question/";
+            const apiUrl = `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/api/ask-question/`;
             const res = await axios.post(apiUrl, { question });
-
+    
             const aiResponse = res.data.choices?.[0]?.message?.content || "No response received.";
-
+    
             const aiMessage: Message = {
                 id: (Date.now() + 1).toString(),
                 role: "ai",
                 content: aiResponse,
                 reactions: []
             };
-
+    
             setMessages((prevMessages) => [...prevMessages, aiMessage]);
             setQuestion("");
         } catch {
