@@ -6,6 +6,8 @@ import {
     SquareKanban,
     WandSparkles,
 } from "lucide-react";
+import { motion, useInView } from "framer-motion"; // Import framer-motion
+import { useRef } from "react";
 
 interface Reason {
     title: string;
@@ -59,18 +61,53 @@ const Feature43 = ({
         },
     ],
 }: Feature43Props) => {
+    const ref = useRef(null); // Create a ref for the section
+    const isInView = useInView(ref, { once: true }); // Trigger animation only once when in view
+
     return (
-        <section className="py-16 px-6 sm:py-24 sm:px-12 lg:py-32 lg:px-36">
+        <motion.section
+            ref={ref}
+            initial={{ opacity: 0, scale: 0.9 }} // Start with opacity 0 and slightly scaled down
+            animate={isInView ? { opacity: 1, scale: 1 } : {}} // Animate to full opacity and scale
+            transition={{ duration: 0.8, ease: "easeOut" }} // Smooth transition
+            className="py-16 px-6 sm:py-24 sm:px-12 lg:py-32 lg:px-36"
+        >
             <div className="container mx-auto">
-                <div className="mb-10 md:mb-20">
+                {/* Heading Section */}
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="mb-10 md:mb-20"
+                >
                     <h2 className="mb-4 text-center text-2xl font-semibold sm:text-3xl lg:text-5xl">
                         {heading}
                     </h2>
-                </div>
-                <div className="grid gap-8 sm:gap-10 md:grid-cols-2 lg:grid-cols-3">
+                </motion.div>
+
+                {/* Features Grid */}
+                <motion.div
+                    initial="hidden"
+                    animate={isInView ? "visible" : "hidden"}
+                    variants={{
+                        hidden: { opacity: 0, scale: 0.9 },
+                        visible: {
+                            opacity: 1,
+                            scale: 1,
+                            transition: {
+                                staggerChildren: 0.2, // Stagger animation for child elements
+                            },
+                        },
+                    }}
+                    className="grid gap-8 sm:gap-10 md:grid-cols-2 lg:grid-cols-3"
+                >
                     {reasons.map((reason, i) => (
-                        <div
+                        <motion.div
                             key={i}
+                            variants={{
+                                hidden: { opacity: 0, scale: 0.9 },
+                                visible: { opacity: 1, scale: 1 },
+                            }}
                             className="flex flex-col items-center text-center sm:items-start sm:text-left"
                         >
                             <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-accent">
@@ -82,11 +119,11 @@ const Feature43 = ({
                             <p className="text-sm text-muted-foreground sm:text-base">
                                 {reason.description}
                             </p>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </div>
-        </section>
+        </motion.section>
     );
 };
 

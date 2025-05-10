@@ -1,6 +1,8 @@
 import { Instagram, Facebook, Twitter, Linkedin } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { motion, useInView } from "framer-motion"; // Import framer-motion
+import { useRef } from "react";
 
 const sections = [
     {
@@ -49,12 +51,26 @@ const Footer7 = ({
         title: "StudAIs",
     },
 }: Footer7Props) => {
+    const ref = useRef(null); // Create a ref for the section
+    const isInView = useInView(ref, { once: true }); // Trigger animation only once when in view
+
     return (
-        <section className="py-16 px-6 sm:py-24 sm:px-12 lg:py-32 lg:px-36">
+        <motion.section
+            ref={ref}
+            initial={{ opacity: 0, scale: 0.9 }} // Start with opacity 0 and slightly scaled down
+            animate={isInView ? { opacity: 1, scale: 1 } : {}} // Animate to full opacity and scale
+            transition={{ duration: 0.8, ease: "easeOut" }} // Smooth transition
+            className="py-16 px-6 sm:py-24 sm:px-12 lg:py-32 lg:px-36"
+        >
             <div className="container mx-auto">
                 <div className="flex flex-col items-center gap-10 text-center lg:flex-row lg:items-start lg:gap-20 lg:text-left">
                     {/* Logo and Description */}
-                    <div className="flex flex-col items-center gap-6 lg:items-start">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        className="flex flex-col items-center gap-6 lg:items-start"
+                    >
                         <div className="flex items-center gap-2">
                             <Link href={logo.url}>
                                 <Image
@@ -93,12 +109,32 @@ const Footer7 = ({
                                 </a>
                             </li>
                         </ul>
-                    </div>
+                    </motion.div>
 
                     {/* Links Section */}
-                    <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
+                    <motion.div
+                        initial="hidden"
+                        animate={isInView ? "visible" : "hidden"}
+                        variants={{
+                            hidden: { opacity: 0, scale: 0.9 },
+                            visible: {
+                                opacity: 1,
+                                scale: 1,
+                                transition: {
+                                    staggerChildren: 0.2, // Stagger animation for child elements
+                                },
+                            },
+                        }}
+                        className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10"
+                    >
                         {sections.map((section, sectionIdx) => (
-                            <div key={sectionIdx}>
+                            <motion.div
+                                key={sectionIdx}
+                                variants={{
+                                    hidden: { opacity: 0, scale: 0.9 },
+                                    visible: { opacity: 1, scale: 1 },
+                                }}
+                            >
                                 <h3 className="mb-4 font-bold">{section.title}</h3>
                                 <ul className="space-y-2 text-sm text-muted-foreground">
                                     {section.links.map((link, linkIdx) => (
@@ -107,13 +143,18 @@ const Footer7 = ({
                                         </li>
                                     ))}
                                 </ul>
-                            </div>
+                            </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                 </div>
 
                 {/* Footer Bottom */}
-                <div className="mt-8 flex flex-col items-center gap-4 border-t pt-8 text-center text-sm text-muted-foreground lg:flex-row lg:justify-between lg:text-left">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 0.8, delay: 0.4 }}
+                    className="mt-8 flex flex-col items-center gap-4 border-t pt-8 text-center text-sm text-muted-foreground lg:flex-row lg:justify-between lg:text-left"
+                >
                     <p>© 2025 StudAIs. All rights reserved.</p>
                     <ul className="flex space-x-4">
                         <li className="hover:text-primary">
@@ -123,9 +164,9 @@ const Footer7 = ({
                             <a href="#">Privacy Policy</a>
                         </li>
                     </ul>
-                </div>
+                </motion.div>
             </div>
-        </section>
+        </motion.section>
     );
 };
 
