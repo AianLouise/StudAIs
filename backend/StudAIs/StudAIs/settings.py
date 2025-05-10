@@ -11,13 +11,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
-import pymysql
 from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv  # Import dotenv
-
-# Initialize PyMySQL
-pymysql.install_as_MySQLdb()
 
 # Load environment variables from .env file
 load_dotenv()
@@ -117,6 +113,7 @@ DATABASES = {
         'OPTIONS': {
             'charset': 'utf8mb4',
             'use_unicode': True,
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
     }
 }
