@@ -26,7 +26,7 @@ def ask_question(request):
 
     # Define the payload to send to OpenRouter
     payload = {
-        "model": "qwen/qwen-2.5-7b-instruct:free",  # Optional, adjust as necessary.
+        "model": "qwen/qwen3-4b:free",  # Optional, adjust as necessary.
         "messages": [
             {
                 "role": "user",
