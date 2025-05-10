@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+from dotenv import load_dotenv  # Import dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-4&@+4&i((favilb!e#+#za%#h4d@8pt1&^=$frza!emfyw%27c'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # Enable debug mode for local development
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']  # Allow localhost and loopback address
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 # Application definition
 
@@ -90,12 +94,10 @@ SIMPLE_JWT = {
 }
 
 # Allow requests from specific origins
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-]
+CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
 
 # OpenRouter API Key
-OPENROUTER_API_KEY = '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'
+OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY')
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -103,11 +105,11 @@ OPENROUTER_API_KEY = 'sk-or-v1-b1a873731bd423c4c394a33f256ce817801447b98362768b6
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'studais',  # Name of the database
-        'USER': 'root',     # Database username
-        'PASSWORD': 'Aianlouise',  # Database password
-        'HOST': 'localhost',  # Localhost for development
-        'PORT': '3306',       # Default MySQL port
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('DATABASE_HOST'),
+        'PORT': os.getenv('DATABASE_PORT'),
     }
 }
 
