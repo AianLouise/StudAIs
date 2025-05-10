@@ -32,6 +32,7 @@ export default function RegisterPage() {
 
     return (
         <div className="grid min-h-screen lg:grid-cols-2">
+            {/* Left Section */}
             <div className="flex flex-col gap-4 p-6 md:p-10">
                 <div className="flex justify-center gap-2 md:justify-start">
                     <Link href="/" className="flex items-center gap-2 font-medium">
@@ -47,6 +48,8 @@ export default function RegisterPage() {
                     </div>
                 </div>
             </div>
+
+            {/* Right Section */}
             <div className="relative hidden bg-muted lg:block">
                 <Image
                     src="/placeholder.svg"
