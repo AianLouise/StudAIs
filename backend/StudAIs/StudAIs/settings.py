@@ -109,7 +109,7 @@ DATABASES = {
         'USER': os.getenv('DATABASE_USER'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD'),
         'HOST': os.getenv('DATABASE_HOST'),
-        'PORT': os.getenv('DATABASE_PORT'),
+        'PORT': os.getenv('DATABASE_PORT', '3306'),  # Default MySQL port
         'OPTIONS': {
             'charset': 'utf8mb4',
             'use_unicode': True,
@@ -151,7 +151,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Vercel uses a read-only file system, so serve static files via Cloud Storage (e.g., AWS S3) or use Vercel’s static file handling
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Static files directory for local development
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+# Static files directory for production
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Media files handling (for uploads)
+# Use a cloud provider like AWS S3 or Google Cloud Storage for media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
