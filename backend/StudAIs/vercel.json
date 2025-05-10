@@ -2,14 +2,23 @@
     "version": 2,
     "builds": [
         {
-            "src": "wsgi.py",
-            "use": "@vercel/python"
+            "src": "StudAIs/wsgi.py",
+            "use": "@vercel/python",
+            "config": {
+                "buildCommand": "python manage.py migrate"
+            }
         }
     ],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "wsgi.py"
+            "dest": "StudAIs/wsgi.py"
         }
-    ]
+    ],
+    "env": {
+        "DJANGO_SETTINGS_MODULE": "StudAIs.settings",
+        "PYTHONPATH": ".",
+        "ALLOWED_HOSTS": ".vercel.app",
+        "DEBUG": "False"
+    }
 }
