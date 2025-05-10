@@ -8,6 +8,9 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
+def test(request):
+    return JsonResponse({'message': 'Hello, world!'})
+
 # Function to generate JWT tokens
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
