@@ -5,7 +5,7 @@
             "src": "StudAIs/wsgi.py",
             "use": "@vercel/python",
             "config": {
-                "buildCommand": "apt-get update && apt-get install -y default-libmysqlclient-dev build-essential && pip install -r requirements.txt && python manage.py migrate"
+                "buildCommand": "pip install -r requirements.txt && python manage.py migrate"
             }
         }
     ],
