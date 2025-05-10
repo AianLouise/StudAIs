@@ -97,8 +97,24 @@ SIMPLE_JWT = {
     # Other settings...
 }
 
-# Allow requests from specific origins
-CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
+CORS_ALLOWED_ORIGINS = [
+    'https://studais.vercel.app',  # Allow the frontend domain
+]
+
+# If you want to allow all origins (not recommended for production):
+# CORS_ALLOW_ALL_ORIGINS = True
+
+# Allow specific HTTP methods (e.g., OPTIONS, GET, POST)
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'OPTIONS',
+    'HEAD',
+]
+
+# If you want to allow credentials (cookies or authorization headers), set:
+CORS_ALLOW_CREDENTIALS = True
+
 
 # OpenRouter API Key
 OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY')
