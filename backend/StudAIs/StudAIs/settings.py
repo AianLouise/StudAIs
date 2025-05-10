@@ -12,27 +12,21 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 from datetime import timedelta
-
-# Load environment variables from .env file
-load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'django-insecure-4&@+4&i((favilb!e#+#za%#h4d@8pt1&^=$frza!emfyw%27c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+DEBUG = True  # Enable debug mode for local development
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']  # Allow localhost and loopback address
 
 # Application definition
 
@@ -96,10 +90,12 @@ SIMPLE_JWT = {
 }
 
 # Allow requests from specific origins
-CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
 
 # OpenRouter API Key
-OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY')
+OPENROUTER_API_KEY = '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'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -107,14 +103,13 @@ OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DATABASE_NAME'),
-        'USER': os.getenv('DATABASE_USER'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-        'HOST': os.getenv('DATABASE_HOST'),
-        'PORT': os.getenv('DATABASE_PORT', '3306'),
+        'NAME': 'studais',  # Name of the database
+        'USER': 'root',     # Database username
+        'PASSWORD': 'Aianlouise',  # Database password
+        'HOST': 'localhost',  # Localhost for development
+        'PORT': '3306',       # Default MySQL port
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -134,7 +129,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -145,7 +139,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
