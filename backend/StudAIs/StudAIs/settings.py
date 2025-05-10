@@ -97,9 +97,7 @@ SIMPLE_JWT = {
     # Other settings...
 }
 
-CORS_ALLOWED_ORIGINS = [
-    'https://studais.vercel.app',  # Allow the frontend domain
-]
+CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
 
 # If you want to allow all origins (not recommended for production):
 # CORS_ALLOW_ALL_ORIGINS = True
