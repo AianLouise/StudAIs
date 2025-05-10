@@ -4,30 +4,35 @@ import Image from "next/image";
 
 const Testimonial4 = () => {
     return (
-        <section className="py-32 px-36">
-            <div className="container">
+        <section className="py-16 px-6 sm:py-24 sm:px-12 lg:py-32 lg:px-36">
+            <div className="container mx-auto">
                 <div className="flex flex-col gap-6">
-                    <div className="grid grid-cols-1 items-stretch gap-x-0 gap-y-4 lg:grid-cols-3 lg:gap-4">
+                    {/* Top Section with Image and Main Testimonial */}
+                    <div className="grid grid-cols-1 gap-y-4 lg:grid-cols-3 lg:gap-4">
                         <Image
                             src="https://shadcnblocks.com/images/block/placeholder-1.svg"
                             alt="placeholder"
                             width={400}
                             height={288}
-                            className="h-72 w-full rounded-md object-cover lg:h-auto"
+                            className="h-72 w-full rounded-md object-cover sm:h-80 lg:h-auto"
                         />
                         <Card className="col-span-2 flex items-center justify-center p-6">
                             <div className="flex flex-col gap-4">
-                                <q className="text-xl font-medium lg:text-3xl">
+                                <q className="text-lg font-medium sm:text-xl lg:text-3xl">
                                     StudAIs has completely transformed the way I study. The AI-powered tools are intuitive, efficient, and incredibly helpful.
                                 </q>
                                 <div className="flex flex-col items-start">
-                                    <p>Jane Smith</p>
-                                    <p className="text-muted-foreground">Student, University of Learning</p>
+                                    <p className="font-medium">Jane Smith</p>
+                                    <p className="text-sm text-muted-foreground sm:text-base">
+                                        Student, University of Learning
+                                    </p>
                                 </div>
                             </div>
                         </Card>
                     </div>
-                    <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+
+                    {/* Bottom Section with Additional Testimonials */}
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         <Card>
                             <CardContent className="px-6 pt-6 leading-7 text-foreground/70">
                                 <q>
@@ -36,7 +41,7 @@ const Testimonial4 = () => {
                             </CardContent>
                             <CardFooter>
                                 <div className="flex gap-4 leading-5">
-                                    <Avatar className="size-9 rounded-full ring-1 ring-input">
+                                    <Avatar className="h-12 w-12 rounded-full ring-1 ring-input">
                                         <AvatarImage
                                             src="https://shadcnblocks.com/images/block/avatar-1.webp"
                                             alt="placeholder"
@@ -57,7 +62,7 @@ const Testimonial4 = () => {
                             </CardContent>
                             <CardFooter>
                                 <div className="flex gap-4 leading-5">
-                                    <Avatar className="size-9 rounded-full ring-1 ring-input">
+                                    <Avatar className="h-12 w-12 rounded-full ring-1 ring-input">
                                         <AvatarImage
                                             src="https://shadcnblocks.com/images/block/avatar-1.webp"
                                             alt="placeholder"
@@ -78,7 +83,7 @@ const Testimonial4 = () => {
                             </CardContent>
                             <CardFooter>
                                 <div className="flex gap-4 leading-5">
-                                    <Avatar className="size-9 rounded-full ring-1 ring-input">
+                                    <Avatar className="h-12 w-12 rounded-full ring-1 ring-input">
                                         <AvatarImage
                                             src="https://shadcnblocks.com/images/block/avatar-1.webp"
                                             alt="placeholder"

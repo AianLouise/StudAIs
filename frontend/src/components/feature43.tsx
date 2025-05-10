@@ -60,21 +60,28 @@ const Feature43 = ({
     ],
 }: Feature43Props) => {
     return (
-        <section className="py-32 px-36">
-            <div className="container">
+        <section className="py-16 px-6 sm:py-24 sm:px-12 lg:py-32 lg:px-36">
+            <div className="container mx-auto">
                 <div className="mb-10 md:mb-20">
-                    <h2 className="mb-2 text-center text-3xl font-semibold lg:text-5xl">
+                    <h2 className="mb-4 text-center text-2xl font-semibold sm:text-3xl lg:text-5xl">
                         {heading}
                     </h2>
                 </div>
-                <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-8 sm:gap-10 md:grid-cols-2 lg:grid-cols-3">
                     {reasons.map((reason, i) => (
-                        <div key={i} className="flex flex-col">
-                            <div className="mb-5 flex size-16 items-center justify-center rounded-full bg-accent">
+                        <div
+                            key={i}
+                            className="flex flex-col items-center text-center sm:items-start sm:text-left"
+                        >
+                            <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-accent">
                                 {reason.icon}
                             </div>
-                            <h3 className="mb-2 text-xl font-semibold">{reason.title}</h3>
-                            <p className="text-muted-foreground">{reason.description}</p>
+                            <h3 className="mb-2 text-lg font-semibold sm:text-xl">
+                                {reason.title}
+                            </h3>
+                            <p className="text-sm text-muted-foreground sm:text-base">
+                                {reason.description}
+                            </p>
                         </div>
                     ))}
                 </div>

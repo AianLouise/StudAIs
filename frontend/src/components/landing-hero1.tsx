@@ -44,20 +44,21 @@ const Hero1 = ({
     },
 }: Hero1Props) => {
     return (
-        <section className="py-32 px-36">
-            <div className="container">
+        <section className="py-16 px-6 sm:py-24 sm:px-12 lg:py-32 lg:px-36">
+            <div className="container mx-auto">
                 <div className="grid items-center gap-8 lg:grid-cols-2">
-                    <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+                    {/* Text Section */}
+                    <div className="order-2 lg:order-1 flex flex-col items-center text-center lg:items-start lg:text-left">
                         {badge && (
-                            <Badge variant="outline">
+                            <Badge variant="outline" className="flex items-center">
                                 {badge}
-                                <ArrowUpRight className="ml-2 size-4" />
+                                <ArrowUpRight className="ml-2 h-4 w-4" />
                             </Badge>
                         )}
-                        <h1 className="my-6 text-4xl font-bold text-pretty lg:text-6xl">
+                        <h1 className="my-6 text-3xl font-bold leading-tight text-pretty sm:text-4xl lg:text-6xl">
                             {heading}
                         </h1>
-                        <p className="mb-8 max-w-xl text-muted-foreground lg:text-xl">
+                        <p className="mb-8 max-w-xl text-muted-foreground sm:text-lg lg:text-xl">
                             {description}
                         </p>
                         <div className="flex w-full flex-col justify-center gap-2 sm:flex-row lg:justify-start">
@@ -70,19 +71,23 @@ const Hero1 = ({
                                 <Button asChild variant="outline" className="w-full sm:w-auto">
                                     <Link href={buttons.secondary.url}>
                                         {buttons.secondary.text}
-                                        <ArrowRight className="size-4" />
+                                        <ArrowRight className="ml-2 h-4 w-4" />
                                     </Link>
                                 </Button>
                             )}
                         </div>
                     </div>
-                    <Image
-                        src={image.src}
-                        alt={image.alt}
-                        width={384}
-                        height={384}
-                        className="max-h-96 w-full rounded-md object-fill"
-                    />
+
+                    {/* Image Section */}
+                    <div className="order-1 lg:order-2 flex justify-center">
+                        <Image
+                            src={image.src}
+                            alt={image.alt}
+                            width={300} // Smaller width for mobile
+                            height={300} // Smaller height for mobile
+                            className="max-h-48 w-auto rounded-md object-cover sm:max-h-64 lg:max-h-96"
+                        />
+                    </div>
                 </div>
             </div>
         </section>

@@ -50,12 +50,12 @@ const Footer7 = ({
     },
 }: Footer7Props) => {
     return (
-        <section className="py-32 px-20">
-            <div className="container">
-                <div className="flex w-full flex-col items-center justify-between gap-10 text-center lg:flex-row lg:items-start lg:text-left">
-                    <div className="flex w-full flex-col items-center justify-between gap-6 lg:items-start">
-                        {/* Logo */}
-                        <div className="flex items-center gap-2 lg:justify-start">
+        <section className="py-16 px-6 sm:py-24 sm:px-12 lg:py-32 lg:px-36">
+            <div className="container mx-auto">
+                <div className="flex flex-col items-center gap-10 text-center lg:flex-row lg:items-start lg:gap-20 lg:text-left">
+                    {/* Logo and Description */}
+                    <div className="flex flex-col items-center gap-6 lg:items-start">
+                        <div className="flex items-center gap-2">
                             <Link href={logo.url}>
                                 <Image
                                     src={logo.src}
@@ -68,42 +68,41 @@ const Footer7 = ({
                             </Link>
                             <h2 className="text-xl font-semibold">{logo.title}</h2>
                         </div>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-muted-foreground max-w-xs lg:max-w-sm">
                             Empowering students with AI-driven tools to enhance learning, simplify studying, and achieve academic success.
                         </p>
-                        <ul className="flex items-center space-x-6 text-muted-foreground">
-                            <li className="font-medium hover:text-primary">
+                        <ul className="flex items-center space-x-6">
+                            <li className="hover:text-primary">
                                 <a href="#">
-                                    <Instagram className="size-6" />
+                                    <Instagram className="h-6 w-6" />
                                 </a>
                             </li>
-                            <li className="font-medium hover:text-primary">
+                            <li className="hover:text-primary">
                                 <a href="#">
-                                    <Facebook className="size-6" />
+                                    <Facebook className="h-6 w-6" />
                                 </a>
                             </li>
-                            <li className="font-medium hover:text-primary">
+                            <li className="hover:text-primary">
                                 <a href="#">
-                                    <Twitter className="size-6" />
+                                    <Twitter className="h-6 w-6" />
                                 </a>
                             </li>
-                            <li className="font-medium hover:text-primary">
+                            <li className="hover:text-primary">
                                 <a href="#">
-                                    <Linkedin className="size-6" />
+                                    <Linkedin className="h-6 w-6" />
                                 </a>
                             </li>
                         </ul>
                     </div>
-                    <div className="grid w-full grid-cols-3 gap-6 lg:gap-20">
+
+                    {/* Links Section */}
+                    <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
                         {sections.map((section, sectionIdx) => (
                             <div key={sectionIdx}>
-                                <h3 className="mb-6 font-bold">{section.title}</h3>
-                                <ul className="space-y-4 text-sm text-muted-foreground">
+                                <h3 className="mb-4 font-bold">{section.title}</h3>
+                                <ul className="space-y-2 text-sm text-muted-foreground">
                                     {section.links.map((link, linkIdx) => (
-                                        <li
-                                            key={linkIdx}
-                                            className="font-medium hover:text-primary"
-                                        >
+                                        <li key={linkIdx} className="hover:text-primary">
                                             <a href={link.href}>{link.name}</a>
                                         </li>
                                     ))}
@@ -112,9 +111,11 @@ const Footer7 = ({
                         ))}
                     </div>
                 </div>
-                <div className="mt-8 flex flex-col justify-between gap-4 border-t pt-8 text-center text-sm font-medium text-muted-foreground lg:flex-row lg:items-center lg:text-left">
+
+                {/* Footer Bottom */}
+                <div className="mt-8 flex flex-col items-center gap-4 border-t pt-8 text-center text-sm text-muted-foreground lg:flex-row lg:justify-between lg:text-left">
                     <p>© 2025 StudAIs. All rights reserved.</p>
-                    <ul className="flex justify-center gap-4 lg:justify-start">
+                    <ul className="flex space-x-4">
                         <li className="hover:text-primary">
                             <a href="#">Terms and Conditions</a>
                         </li>
