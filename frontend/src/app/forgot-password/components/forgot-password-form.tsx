@@ -20,7 +20,7 @@ export function ForgotPasswordForm() {
                 email,
             });
             toast.success("If the email is registered, you will receive password reset instructions shortly.");
-        } catch (error) {
+        } catch {
             toast.error("Failed to send reset password. Please try again.");
         } finally {
             setIsSubmitting(false);

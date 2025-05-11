@@ -14,28 +14,28 @@ export function ResetPasswordForm() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
+    
         if (password !== confirmPassword) {
             toast.error("Passwords do not match. Please try again.");
             return;
         }
-
+    
         setIsSubmitting(true);
-
+    
         try {
             const token = new URLSearchParams(window.location.search).get("token"); // Get token from URL
             if (!token) {
                 toast.error("Invalid or missing reset token.");
                 return;
             }
-
+    
             await axios.post(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/auth/reset-password/`, {
                 token,
                 password,
             });
-
+    
             toast.success("Password reset successfully! You can now log in.");
-        } catch (error) {
+        } catch {
             toast.error("Failed to reset password. Please try again.");
         } finally {
             setIsSubmitting(false);
