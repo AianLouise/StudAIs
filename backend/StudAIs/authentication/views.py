@@ -7,6 +7,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 import json
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.conf import settings
 
 # Function to generate JWT tokens
 def get_tokens_for_user(user):
