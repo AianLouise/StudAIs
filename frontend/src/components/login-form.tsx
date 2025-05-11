@@ -114,9 +114,9 @@ export function LoginForm({
                             onClick={() => setIsPasswordVisible(!isPasswordVisible)}
                         >
                             {isPasswordVisible ? (
-                                <EyeClosedIcon className="h-4 w-4" />
-                            ) : (
                                 <EyeOpenIcon className="h-4 w-4" />
+                            ) : (
+                                <EyeClosedIcon className="h-4 w-4" />
                             )}
                         </button>
                     </div>

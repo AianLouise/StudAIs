@@ -143,9 +143,9 @@ export function RegisterForm() {
                             onClick={() => setIsPasswordVisible(!isPasswordVisible)}
                         >
                             {isPasswordVisible ? (
-                                <EyeClosedIcon className="h-4 w-4" />
-                            ) : (
                                 <EyeOpenIcon className="h-4 w-4" />
+                            ) : (
+                                <EyeClosedIcon className="h-4 w-4" />
                             )}
                         </button>
                     </div>
@@ -169,9 +169,9 @@ export function RegisterForm() {
                             }
                         >
                             {isConfirmPasswordVisible ? (
-                                <EyeClosedIcon className="h-4 w-4" />
-                            ) : (
                                 <EyeOpenIcon className="h-4 w-4" />
+                            ) : (
+                                <EyeClosedIcon className="h-4 w-4" />
                             )}
                         </button>
                     </div>
