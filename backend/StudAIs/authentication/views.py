@@ -237,7 +237,7 @@ def forgot_password_view(request):
 
             # Generate a password reset token
             token = default_token_generator.make_token(user)
-            reset_url = f"{settings.FRONTEND_URL}/reset-password?token={token}"
+            reset_url = f"{settings.FRONTEND_URL}/reset-password?token={token}&email={email}"
 
             # Send reset email
             send_mail(
@@ -255,7 +255,6 @@ def forgot_password_view(request):
 
     return JsonResponse({'error': 'POST request required'}, status=400)
 
-# Reset Password View
 @csrf_exempt
 def reset_password_view(request):
     if request.method == 'POST':
@@ -263,13 +262,14 @@ def reset_password_view(request):
             data = json.loads(request.body)
             token = data.get('token')
             new_password = data.get('password')
+            email = data.get('email')
 
-            if not token or not new_password:
-                return JsonResponse({'error': 'Token and new password are required'}, status=400)
+            if not token or not new_password or not email:
+                return JsonResponse({'error': 'Token, email, and new password are required'}, status=400)
 
             try:
-                # Find the user associated with the token
-                user = User.objects.get(email=data.get('email'))
+                user = User.objects.get(email=email)
+
                 if not default_token_generator.check_token(user, token):
                     return JsonResponse({'error': 'Invalid or expired token'}, status=400)
 

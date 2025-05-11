@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation"; // Import useRouter
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,6 +12,15 @@ export function ResetPasswordForm() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const router = useRouter(); // Initialize useRouter
+
+    useEffect(() => {
+        const token = new URLSearchParams(window.location.search).get("token"); // Get token from URL
+        if (!token) {
+            toast.error("Invalid or missing reset token.");
+            router.push("/login"); // Redirect to login page if no token is found
+        }
+    }, [router]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -24,18 +34,21 @@ export function ResetPasswordForm() {
     
         try {
             const token = new URLSearchParams(window.location.search).get("token"); // Get token from URL
-            if (!token) {
-                toast.error("Invalid or missing reset token.");
+            const email = new URLSearchParams(window.location.search).get("email"); // Get email from URL
+            if (!token || !email) {
+                toast.error("Invalid or missing reset token or email.");
                 return;
             }
     
             await axios.post(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/auth/reset-password/`, {
                 token,
                 password,
+                email,
             });
     
-            toast.success("Password reset successfully! You can now log in.");
-        } catch {
+            toast.success("Password reset successfully! Redirecting to login...");
+            setTimeout(() => router.push("/login"), 2000); // Redirect to login page after 2 seconds
+        } catch (error) {
             toast.error("Failed to reset password. Please try again.");
         } finally {
             setIsSubmitting(false);
