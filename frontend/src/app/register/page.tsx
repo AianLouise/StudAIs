@@ -6,7 +6,7 @@ import { BrainCircuit } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
-import { RegisterForm } from "@/components/register-form";
+import { RegisterForm } from "@/app/register/components/register-form";
 import Cookies from "js-cookie"; // Import js-cookie for cookie management
 
 export default function RegisterPage() {

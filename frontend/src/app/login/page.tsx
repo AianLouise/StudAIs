@@ -6,7 +6,7 @@ import { BrainCircuit } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
-import { LoginForm } from "@/components/login-form";
+import { LoginForm } from "@/app/login/components/login-form";
 import Cookies from "js-cookie"; // Import js-cookie for cookie management
 
 export default function LoginPage() {
