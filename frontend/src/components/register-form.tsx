@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner"; // Import Sonner
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons"; // Import Radix Icons
-import Cookies from "js-cookie"; // Import js-cookie for cookie management
 import Link from "next/link";
 
 export function RegisterForm() {
@@ -36,7 +35,7 @@ export function RegisterForm() {
 
         try {
             // Send registration request to the backend
-            const response = await axios.post(
+            await axios.post(
                 `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/auth/register/`,
                 {
                     firstname,
@@ -47,14 +46,11 @@ export function RegisterForm() {
                 }
             );
 
-            const { access, refresh } = response.data.tokens;
+            // Store email in localStorage for verification purposes
+            localStorage.setItem("email", email);
 
-            // Store the JWT tokens in cookies
-            Cookies.set("access_token", access, { expires: 7, secure: true });
-            Cookies.set("refresh_token", refresh, { expires: 7, secure: true });
-
-            toast.success("Registration Successful! Redirecting to your dashboard...");
-            setTimeout(() => router.push("/dashboard"), 2000); // Redirect to dashboard after 2 seconds
+            toast.success("Registration successful! Please verify your email.");
+            setTimeout(() => router.push("/verify-email"), 2000); // Redirect to Verify Email page after 2 seconds
         } catch (err: unknown) {
             let errorMessage = "An error occurred. Please try again.";
             if (

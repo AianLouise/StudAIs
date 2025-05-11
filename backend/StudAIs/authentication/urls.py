@@ -5,7 +5,9 @@ from .views import (
     logout_view,
     get_user_details,
     forgot_password_view,
-    reset_password_view,  # Import the new views
+    reset_password_view,
+    verify_email_view,
+    resend_verification_view,
 )
 
 AppName = 'authentication'
@@ -15,6 +17,8 @@ urlpatterns = [
     path('register/', register_view, name='register'),
     path('logout/', logout_view, name='logout'),
     path('get-user-details/', get_user_details, name='get_user_details'),
-    path('forgot-password/', forgot_password_view, name='forgot_password'),  # Forgot Password endpoint
-    path('reset-password/', reset_password_view, name='reset_password'),    # Reset Password endpoint
+    path('forgot-password/', forgot_password_view, name='forgot_password'),
+    path('reset-password/', reset_password_view, name='reset_password'),
+    path('verify-email/', verify_email_view, name='verify_email'),
+    path('resend-verification/', resend_verification_view, name='resend_verification'),
 ]

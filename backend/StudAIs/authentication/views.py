@@ -32,20 +32,30 @@ def login_view(request):
             if '@' in identifier:
                 try:
                     user = User.objects.get(email=identifier)
-                    username = user.username  # Get the username associated with the email
                 except User.DoesNotExist:
                     return JsonResponse({'error': 'Invalid email or password'}, status=400)
             else:
-                username = identifier  # Treat the identifier as a username
+                try:
+                    user = User.objects.get(username=identifier)
+                except User.DoesNotExist:
+                    return JsonResponse({'error': 'Invalid username or password'}, status=400)
 
             # Authenticate user
-            user = authenticate(request, username=username, password=password)
+            user = authenticate(request, username=user.username, password=password)
 
             if user is not None:
-                # Generate tokens for the authenticated user
+                # Include is_verified and email in the response
                 tokens = get_tokens_for_user(user)
                 login(request, user)  # Log the user in
-                return JsonResponse({'message': 'Login successful', 'tokens': tokens})
+                return JsonResponse({
+                    'message': 'Login successful',
+                    'tokens': {
+                        'access': tokens['access'],
+                        'refresh': tokens['refresh'],
+                        'is_verified': user.profile.is_verified,  # Include is_verified field
+                        'email': user.email  # Include email field
+                    }
+                })
             else:
                 return JsonResponse({'error': 'Invalid username/email or password'}, status=400)
         except json.JSONDecodeError:
@@ -55,41 +65,129 @@ def login_view(request):
 
     return JsonResponse({'error': 'POST request required'}, status=400)
 
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+
 @csrf_exempt
 def register_view(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        username = data.get('username')
-        password = data.get('password')
-        firstname = data.get('firstname')  # Get first name
-        lastname = data.get('lastname')    # Get last name
-        email = data.get('email')          # Get email
-
-        # Validate password strength
         try:
-            validate_password(password)
+            data = json.loads(request.body)
+            username = data.get('username')
+            password = data.get('password')
+            firstname = data.get('firstname')  # Get first name
+            lastname = data.get('lastname')    # Get last name
+            email = data.get('email')          # Get email
+
+            # Validate required fields
+            if not username or not password or not email:
+                return JsonResponse({'error': 'Username, email, and password are required'}, status=400)
+
+            # Check if the username already exists
+            if User.objects.filter(username=username).exists():
+                return JsonResponse({'error': 'Username already exists'}, status=400)
+
+            # Check if the email already exists
+            if User.objects.filter(email=email).exists():
+                return JsonResponse({'error': 'Email already exists'}, status=400)
+
+            # Validate password strength
+            try:
+                validate_password(password)
+            except Exception as e:
+                return JsonResponse({'error': str(e)}, status=400)
+
+            # Create a new user (inactive by default)
+            user = User.objects.create_user(
+                username=username,
+                password=password,
+                first_name=firstname,
+                last_name=lastname,
+                email=email
+            )
+
+            # Generate email verification token
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            verification_url = f"http://localhost:3000/verify-email?uid={uid}&token={token}"
+
+            # Send verification email
+            send_mail(
+                subject="Verify Your Email - StudAIs",
+                message=f"Click the link below to verify your email:\n\n{verification_url}",
+                from_email="noreply@studais.com",
+                recipient_list=[email],
+            )
+
+            return JsonResponse({'message': 'Registration successful. Please check your email to verify your account.'})
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=400)
+            return JsonResponse({'error': f'An unexpected error occurred: {str(e)}'}, status=500)
 
-        # Check if the username or email already exists
-        if User.objects.filter(username=username).exists():
-            return JsonResponse({'error': 'Username already exists'}, status=400)
-        if User.objects.filter(email=email).exists():
-            return JsonResponse({'error': 'Email already exists'}, status=400)
+    return JsonResponse({'error': 'POST request required'}, status=400)
 
-        # Create a new user
-        user = User.objects.create_user(
-            username=username,
-            password=password,
-            first_name=firstname,  # Save first name
-            last_name=lastname,    # Save last name
-            email=email            # Save email
-        )
+@csrf_exempt
+def verify_email_view(request):
+    if request.method == 'GET':
+        uid = request.GET.get('uid')
+        token = request.GET.get('token')
 
-        # Generate tokens for the newly created user
-        tokens = get_tokens_for_user(user)
+        try:
+            # Decode the user ID
+            user_id = force_str(urlsafe_base64_decode(uid))
+            user = User.objects.get(pk=user_id)
 
-        return JsonResponse({'message': 'Registration successful', 'tokens': tokens})
+            # Check the token
+            if default_token_generator.check_token(user, token):
+                user.profile.is_verified = True  # Mark the user as verified
+                user.profile.save()
+                return JsonResponse({'message': 'Email verified successfully. You can now log in.'})
+            else:
+                return JsonResponse({'error': 'Invalid or expired token'}, status=400)
+        except (User.DoesNotExist, ValueError, TypeError):
+            return JsonResponse({'error': 'Invalid verification link'}, status=400)
+
+    return JsonResponse({'error': 'GET request required'}, status=400)
+
+@csrf_exempt
+def resend_verification_view(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            email = data.get('email')
+
+            if not email:
+                return JsonResponse({'error': 'Email is required'}, status=400)
+
+            try:
+                user = User.objects.get(email=email)
+            except User.DoesNotExist:
+                return JsonResponse({'error': 'User with this email does not exist'}, status=400)
+
+            # Check if the user is already verified
+            if user.profile.is_verified:
+                return JsonResponse({'message': 'Email is already verified'}, status=200)
+
+            # Generate a new email verification token
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            verification_url = f"http://localhost:3000/verify-email?uid={uid}&token={token}"
+
+            # Send verification email
+            send_mail(
+                subject="Verify Your Email - StudAIs",
+                message=f"Click the link below to verify your email:\n\n{verification_url}",
+                from_email="noreply@studais.com",
+                recipient_list=[email],
+            )
+
+            return JsonResponse({'message': 'Verification email resent successfully'})
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': f'An unexpected error occurred: {str(e)}'}, status=500)
 
     return JsonResponse({'error': 'POST request required'}, status=400)
 

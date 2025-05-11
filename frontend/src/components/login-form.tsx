@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link"; // Import Link from next/link
+import Link from "next/link";
 import axios from "axios";
-import { toast } from "sonner"; // Import Sonner for notifications
-import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons"; // Import Radix Icons
+import { toast } from "sonner";
+import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Cookies from "js-cookie"; // Import js-cookie for cookie management
+import Cookies from "js-cookie";
 
 export function LoginForm({
     className,
@@ -18,29 +18,37 @@ export function LoginForm({
 }: React.ComponentPropsWithoutRef<"form">) {
     const [identifier, setIdentifier] = useState(""); // Can be email or username
     const [password, setPassword] = useState("");
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State for password visibility
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
-    const handleLogin = async (e: React.FormEvent) => {
+        const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
-
+    
         try {
             const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/auth/login/`,
                 {
-                    username: identifier, // Send identifier as username
+                    username: identifier,
                     password,
                 }
             );
-
-            const { access, refresh } = response.data.tokens;
-
+    
+            const { access, refresh, is_verified, email } = response.data.tokens;
+    
+            // Check if the user is verified
+            if (!is_verified) {
+                toast.error("Your email is not verified. Please verify your email.");
+                localStorage.setItem("email", email); // Store the email for verification purposes
+                router.push("/verify-email"); // Redirect to Verify Email page
+                return;
+            }
+    
             // Store the JWT tokens in cookies
             Cookies.set("access_token", access, { expires: 7, secure: true });
             Cookies.set("refresh_token", refresh, { expires: 7, secure: true });
-
+    
             toast.success("Login Successful! Redirecting to your dashboard...");
             router.push("/dashboard"); // Redirect to the dashboard
         } catch (err: unknown) {
@@ -113,7 +121,7 @@ export function LoginForm({
                         </button>
                     </div>
                     <Link
-                        href="/forgot-password" // Link to the Forgot Password page
+                        href="/forgot-password"
                         className="text-sm underline-offset-4 hover:underline text-right"
                     >
                         Forgot your password?
