@@ -13,7 +13,6 @@ const LandingPage = () => {
         // Scroll to the top of the page when the component mounts
         window.scrollTo(0, 0);
     }, []);
-    localStorage.removeItem("email"); // Remove access token from local storage
 
     return (
         <div className="min-h-screen flex flex-col bg-background">
