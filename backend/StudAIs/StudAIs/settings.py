@@ -199,3 +199,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'connectwithstudais@gmail.com'
 EMAIL_HOST_PASSWORD = 'kfgdfwircehhxcdd'
+
+# Get the frontend URL from the environment variables
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
