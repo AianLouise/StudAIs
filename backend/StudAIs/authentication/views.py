@@ -110,7 +110,7 @@ def register_view(request):
             # Generate email verification token
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-            verification_url = f"http://localhost:3000/verify-email?uid={uid}&token={token}"
+            verification_url = f"{settings.FRONTEND_URL}/verify-email?uid={uid}&token={token}"
 
             # Send verification email
             send_mail(
@@ -173,7 +173,7 @@ def resend_verification_view(request):
             # Generate a new email verification token
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-            verification_url = f"http://localhost:3000/verify-email?uid={uid}&token={token}"
+            verification_url = f"{settings.FRONTEND_URL}/verify-email?uid={uid}&token={token}"
 
             # Send verification email
             send_mail(
@@ -236,7 +236,7 @@ def forgot_password_view(request):
 
             # Generate a password reset token
             token = default_token_generator.make_token(user)
-            reset_url = f"http://localhost:3000/reset-password?token={token}"
+            reset_url = f"{settings.FRONTEND_URL}/reset-password?token={token}"
 
             # Send reset email
             send_mail(

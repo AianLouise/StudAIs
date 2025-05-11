@@ -2,7 +2,7 @@
 
 import VerifyEmailPage from "./components/verify-email-page";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 
 export default function VerifyEmailPageWrapper() {
     const router = useRouter();
@@ -18,7 +18,9 @@ export default function VerifyEmailPageWrapper() {
     return (
         <div className="flex min-h-screen items-center justify-center p-6">
             <div className="w-full max-w-md">
-                <VerifyEmailPage />
+                <Suspense fallback={<div>Loading...</div>}>
+                    <VerifyEmailPage />
+                </Suspense>
             </div>
         </div>
     );
