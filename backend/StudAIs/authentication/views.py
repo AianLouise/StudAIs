@@ -8,9 +8,6 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-def test(request):
-    return JsonResponse({'message': 'Hello, world!'})
-
 # Function to generate JWT tokens
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
@@ -116,3 +113,80 @@ def get_user_details(request):
         'first_name': user.first_name,
         'last_name': user.last_name,
     })
+
+from django.core.mail import send_mail
+from django.utils.crypto import get_random_string
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.hashers import make_password
+import json
+
+# Forgot Password View
+@csrf_exempt
+def forgot_password_view(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            email = data.get('email')
+
+            if not email:
+                return JsonResponse({'error': 'Email is required'}, status=400)
+
+            try:
+                user = User.objects.get(email=email)
+            except User.DoesNotExist:
+                return JsonResponse({'message': 'If the email is registered, you will receive reset instructions shortly.'})
+
+            # Generate a password reset token
+            token = default_token_generator.make_token(user)
+            reset_url = f"http://localhost:3000/reset-password?token={token}"
+
+            # Send reset email
+            send_mail(
+                subject="Password Reset Request",
+                message=f"Click the link below to reset your password:\n\n{reset_url}",
+                from_email="noreply@studais.com",
+                recipient_list=[email],
+            )
+
+            return JsonResponse({'message': 'If the email is registered, you will receive reset instructions shortly.'})
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': f'An unexpected error occurred: {str(e)}'}, status=500)
+
+    return JsonResponse({'error': 'POST request required'}, status=400)
+
+# Reset Password View
+@csrf_exempt
+def reset_password_view(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            token = data.get('token')
+            new_password = data.get('password')
+
+            if not token or not new_password:
+                return JsonResponse({'error': 'Token and new password are required'}, status=400)
+
+            try:
+                # Find the user associated with the token
+                user = User.objects.get(email=data.get('email'))
+                if not default_token_generator.check_token(user, token):
+                    return JsonResponse({'error': 'Invalid or expired token'}, status=400)
+
+                # Validate the new password
+                validate_password(new_password)
+
+                # Update the user's password
+                user.password = make_password(new_password)
+                user.save()
+
+                return JsonResponse({'message': 'Password reset successful'})
+            except User.DoesNotExist:
+                return JsonResponse({'error': 'Invalid token or user not found'}, status=400)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': f'An unexpected error occurred: {str(e)}'}, status=500)
+
+    return JsonResponse({'error': 'POST request required'}, status=400)

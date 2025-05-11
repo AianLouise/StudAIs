@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link"; // Import Link from next/link
 import axios from "axios";
 import { toast } from "sonner"; // Import Sonner for notifications
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons"; // Import Radix Icons
@@ -111,12 +112,12 @@ export function LoginForm({
                             )}
                         </button>
                     </div>
-                    <a
-                        href="#"
+                    <Link
+                        href="/forgot-password" // Link to the Forgot Password page
                         className="text-sm underline-offset-4 hover:underline text-right"
                     >
                         Forgot your password?
-                    </a>
+                    </Link>
                 </div>
                 <Button type="submit" className="w-full" disabled={isLoading}>
                     {isLoading ? "Logging in..." : "Login"}
@@ -124,9 +125,9 @@ export function LoginForm({
             </div>
             <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <a href="/register" className="underline underline-offset-4">
+                <Link href="/register" className="underline underline-offset-4">
                     Register
-                </a>
+                </Link>
             </div>
         </form>
     );
