@@ -7,11 +7,11 @@ import type { Metadata } from "next";
 import "../globals.css";
 
 export const metadata: Metadata = {
-    title: "Dashboard - StudAIs",
+    title: "Quizzes - StudAIs",
     description: "AI-Powered Study Tools",
 };
 
-export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default async function QuizzesLayout({ children }: { children: React.ReactNode }) {
     const cookieStore = cookies();
     const accessToken = (await cookieStore).get("access_token");
     const refreshToken = (await cookieStore).get("refresh_token");
@@ -22,9 +22,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
     return (
         <SidebarProvider>
-            <div className="dashboard-layout flex">
+            <div className="dashboard-layout flex min-w-screen max-w-screen">
                 <AppSidebar />
-                <main className="dashboard-content flex-1 p-4">
+                <main className="dashboard-content flex-1 overflow-hidden p-4">
                     <SidebarTrigger />
                     {children}
                 </main>

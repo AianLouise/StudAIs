@@ -98,12 +98,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         },
         {
             title: "Summarize Notes",
-            url: "#",
+            url: "/summarize-notes",
             icon: FileTextIcon, // Icon representing text or notes
         },
         {
             title: "Quizzes",
-            url: "#",
+            url: "/quizzes",
             icon: ClipboardListIcon, // Icon representing quizzes or tasks
         },
         {
