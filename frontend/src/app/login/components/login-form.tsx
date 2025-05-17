@@ -22,10 +22,10 @@ export function LoginForm({
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
-        const handleLogin = async (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
-    
+
         try {
             const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/auth/login/`,
@@ -34,9 +34,9 @@ export function LoginForm({
                     password,
                 }
             );
-    
+
             const { access, refresh, is_verified, email } = response.data.tokens;
-    
+
             // Check if the user is verified
             if (!is_verified) {
                 toast.error("Your email is not verified. Please verify your email.");
@@ -44,11 +44,26 @@ export function LoginForm({
                 router.push("/verify-email"); // Redirect to Verify Email page
                 return;
             }
-    
+
             // Store the JWT tokens in cookies
             Cookies.set("access_token", access, { expires: 7, secure: true });
             Cookies.set("refresh_token", refresh, { expires: 7, secure: true });
-    
+
+            // Fetch user details and save to localStorage
+            try {
+                const userResponse = await axios.get(
+                    `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/auth/get-user-details/`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${access}`,
+                        },
+                    }
+                );
+                localStorage.setItem("user_details", JSON.stringify(userResponse.data));
+            } catch {
+                // Optionally handle error
+            }
+
             toast.success("Login Successful! Redirecting to your dashboard...");
             router.push("/dashboard"); // Redirect to the dashboard
         } catch (err: unknown) {

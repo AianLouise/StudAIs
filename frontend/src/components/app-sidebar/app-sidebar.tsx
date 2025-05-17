@@ -38,13 +38,30 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const router = useRouter();
 
     React.useEffect(() => {
+        // Try to get user details from localStorage
+        const storedUser = localStorage.getItem("user_details");
+        if (storedUser) {
+            try {
+                const { first_name, last_name, email } = JSON.parse(storedUser);
+                setUser({
+                    name: `${first_name} ${last_name}`,
+                    email: email,
+                    avatar: "",
+                });
+                return; // Skip API call if found in localStorage
+            } catch {
+                // If parsing fails, fallback to API call
+            }
+        }
+
+        // Fallback: fetch from API if not in localStorage
         const fetchUserDetails = async () => {
             try {
                 const response = await axios.get(
                     `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"}/auth/get-user-details/`,
                     {
                         headers: {
-                            Authorization: `Bearer ${Cookies.get("access_token")}`, // Retrieve token from cookies
+                            Authorization: `Bearer ${Cookies.get("access_token")}`,
                         },
                     }
                 );
@@ -52,15 +69,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 setUser({
                     name: `${first_name} ${last_name}`,
                     email: email,
-                    avatar: "", // Update this if the API provides an avatar URL
+                    avatar: "",
                 });
+                localStorage.setItem("user_details", JSON.stringify(response.data));
             } catch {
                 toast.error("Session expired. Please log in again.");
 
-                Cookies.remove("access_token"); // Clear the access token
-                Cookies.remove("refresh_token"); // Clear the refresh token
+                Cookies.remove("access_token");
+                Cookies.remove("refresh_token");
 
-                router.push("/login"); // Redirect to login if fetching fails
+                router.push("/login");
             }
         };
 

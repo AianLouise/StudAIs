@@ -46,16 +46,19 @@ export function NavUser({
     const router = useRouter(); // Initialize router
 
     const handleLogout = () => {
-            // Clear tokens from cookies
-            Cookies.remove("access_token");
-            Cookies.remove("refresh_token");
-    
-            // Show a toast notification
-            toast.success("You have been logged out successfully.");
-    
-            // Redirect to login page
-            router.push("/login");
-        };
+        // Clear tokens from cookies
+        Cookies.remove("access_token");
+        Cookies.remove("refresh_token");
+
+        // Clear user details from localStorage
+        localStorage.removeItem("user_details");
+
+        // Show a toast notification
+        toast.success("You have been logged out successfully.");
+
+        // Redirect to login page
+        router.push("/login");
+    };
 
     // Generate initials from the user's name
     const getInitials = (name: string) => {
