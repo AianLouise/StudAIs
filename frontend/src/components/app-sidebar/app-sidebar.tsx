@@ -37,7 +37,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         email: "Loading...",
         avatar: "", // Placeholder for avatar
     });
-    
+
     const router = useRouter();
     const pathname = usePathname();
 
@@ -107,7 +107,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             icon: FileTextIcon,
             iconColor: "emerald",
         },
-    ];    const studyNavItems = [
+    ]; const studyNavItems = [
         {
             title: "Quizzes",
             url: "/quizzes",
@@ -123,9 +123,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     ];
 
     return (
-        <Sidebar 
-            collapsible="offcanvas" 
-            className="border-r shadow-sm bg-gradient-to-b from-background to-muted/20" 
+        <Sidebar
+            collapsible="offcanvas"
+            className="border-r shadow-sm bg-gradient-to-b from-background to-muted/20"
             {...props}
         >
             <SidebarHeader className="p-4">
@@ -135,9 +135,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             asChild
                             className="data-[slot=sidebar-menu-button]:!p-2 flex items-center justify-center bg-primary/10 rounded-lg hover:bg-primary/20 transition-colors"
                         >
-                            <Link href="/">
-                                <BrainCircuit className="h-6 w-6 text-blue-600" />
-                                <span className="text-lg font-bold">StudAIs</span>
+                            <Link href="/" className="flex items-center justify-center w-full h-full">
+                                <BrainCircuit className="h-7 w-7 text-blue-600" />
+                                <span className="text-sm font-semibold">StudAIs</span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -150,7 +150,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </h3>
                     <NavMain items={mainNavItems} currentPath={pathname} />
                 </div>
-                
+
                 <div className="mb-6">
                     <h3 className="px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
                         Study Tools
@@ -162,7 +162,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SidebarMenu className="mb-2">
                     <SidebarMenuItem>
                         <Link href="/settings" passHref>
-                            <SidebarMenuButton 
+                            <SidebarMenuButton
                                 asChild
                                 className={`w-full ${pathname === '/settings' ? 'bg-muted' : ''}`}
                             >
