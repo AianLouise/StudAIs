@@ -7,7 +7,6 @@ import {
     ClipboardListIcon,
     TrendingUpIcon,
     FileTextIcon,
-    HelpCircleIcon,
     Sparkles,
     Settings,
 } from "lucide-react";

@@ -6,7 +6,6 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
@@ -21,9 +20,7 @@ import {
     Bot,
     User,
     Sparkles,
-    MessageSquare,
-    Download,
-    Share
+    MessageSquare
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -373,7 +370,7 @@ const AskQuestions = () => {
                                 </div>
                                 <h3 className="text-lg font-medium text-gray-900 mb-2">Start a conversation</h3>
                                 <p className="text-gray-500 max-w-sm mx-auto mb-6">
-                                    Ask me anything! I'm here to help with questions, explanations, creative writing, and more.
+                                    Ask me anything! I&apos;m here to help with questions, explanations, creative writing, and more.
                                 </p>
 
                                 {/* Suggested Prompts */}
