@@ -1,12 +1,15 @@
 "use client";
 
-import { useRouter } from "next/navigation"; // Import useRouter
+import * as React from "react";
+import { useRouter } from "next/navigation";
 import {
     BellIcon,
     CreditCardIcon,
     LogOutIcon,
-    MoreVerticalIcon,
+    ChevronsUpDownIcon,
     UserCircleIcon,
+    MoonIcon,
+    SunIcon,
 } from "lucide-react";
 
 import {
@@ -30,8 +33,8 @@ import {
     useSidebar,
 } from "@/components/ui/sidebar";
 
-import { toast } from "sonner"; // Import toast from Sonner
-import Cookies from "js-cookie"; // Import js-cookie for cookie management
+import { toast } from "sonner";
+import Cookies from "js-cookie";
 
 export function NavUser({
     user,
@@ -43,7 +46,21 @@ export function NavUser({
     };
 }) {
     const { isMobile } = useSidebar();
-    const router = useRouter(); // Initialize router
+    const router = useRouter();
+    const [theme, setTheme] = React.useState<"light" | "dark">("light");
+
+    React.useEffect(() => {
+        // Check system theme preference
+        const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        setTheme(isDarkMode ? "dark" : "light");
+    }, []);
+
+    const toggleTheme = () => {
+        const newTheme = theme === "light" ? "dark" : "light";
+        setTheme(newTheme);
+        document.documentElement.classList.toggle("dark");
+        localStorage.setItem("theme", newTheme);
+    };
 
     const handleLogout = () => {
         // Clear tokens from cookies
@@ -74,21 +91,21 @@ export function NavUser({
                     <DropdownMenuTrigger asChild>
                         <SidebarMenuButton
                             size="lg"
-                            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                            className="w-full rounded-lg transition-colors hover:bg-muted data-[state=open]:bg-muted"
                         >
-                            <Avatar className="h-8 w-8 rounded-lg grayscale">
+                            <Avatar className="h-9 w-9 rounded-full border-2 border-primary/20">
                                 <AvatarImage src={user.avatar} alt={user.name} />
-                                <AvatarFallback className="rounded-lg">
+                                <AvatarFallback className="bg-primary/10 text-primary font-medium">
                                     {getInitials(user.name)}
                                 </AvatarFallback>
                             </Avatar>
-                            <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-medium">{user.name}</span>
+                            <div className="grid flex-1 text-left ml-2 leading-tight">
+                                <span className="truncate font-semibold">{user.name}</span>
                                 <span className="truncate text-xs text-muted-foreground">
                                     {user.email}
                                 </span>
                             </div>
-                            <MoreVerticalIcon className="ml-auto size-4" />
+                            <ChevronsUpDownIcon className="ml-auto h-4 w-4 text-muted-foreground" />
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
@@ -98,15 +115,15 @@ export function NavUser({
                         sideOffset={4}
                     >
                         <DropdownMenuLabel className="p-0 font-normal">
-                            <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                                <Avatar className="h-8 w-8 rounded-lg">
+                            <div className="flex items-center gap-3 p-3 text-left">
+                                <Avatar className="h-10 w-10 rounded-full border-2 border-primary/20">
                                     <AvatarImage src={user.avatar} alt={user.name} />
-                                    <AvatarFallback className="rounded-lg">
+                                    <AvatarFallback className="bg-primary/10 text-primary font-medium">
                                         {getInitials(user.name)}
                                     </AvatarFallback>
                                 </Avatar>
-                                <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-medium">{user.name}</span>
+                                <div className="grid flex-1 text-left leading-tight">
+                                    <span className="truncate font-medium text-base">{user.name}</span>
                                     <span className="truncate text-xs text-muted-foreground">
                                         {user.email}
                                     </span>
@@ -115,23 +132,36 @@ export function NavUser({
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                <UserCircleIcon />
-                                Account
+                            <DropdownMenuItem className="gap-3 p-3 cursor-pointer">
+                                <UserCircleIcon className="h-4 w-4" />
+                                <span>My Account</span>
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <CreditCardIcon />
-                                Billing
+                            <DropdownMenuItem className="gap-3 p-3 cursor-pointer">
+                                <CreditCardIcon className="h-4 w-4" />
+                                <span>Subscription</span>
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <BellIcon />
-                                Notifications
+                            <DropdownMenuItem className="gap-3 p-3 cursor-pointer">
+                                <BellIcon className="h-4 w-4" />
+                                <span>Notifications</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="gap-3 p-3 cursor-pointer" onClick={toggleTheme}>
+                                {theme === "light" ? (
+                                    <>
+                                        <MoonIcon className="h-4 w-4" />
+                                        <span>Dark Mode</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <SunIcon className="h-4 w-4" />
+                                        <span>Light Mode</span>
+                                    </>
+                                )}
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={handleLogout}>
-                            <LogOutIcon />
-                            Log out
+                        <DropdownMenuItem className="gap-3 p-3 cursor-pointer text-red-500 focus:text-red-500" onClick={handleLogout}>
+                            <LogOutIcon className="h-4 w-4" />
+                            <span>Log out</span>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
