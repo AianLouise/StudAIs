@@ -18,14 +18,14 @@ export default async function AskQuestionsLayout({ children }: { children: React
 
     if (!accessToken || !refreshToken) {
         redirect("/login");
-    }
-
-    return (
+    }    return (
         <SidebarProvider>
-            <div className="askquestions-layout flex min-w-screen max-w-screen">
+            <div className="askquestions-layout flex min-w-screen max-w-screen h-screen">
                 <AppSidebar />
-                <main className="askquestions-content flex-1 overflow-hidden p-4">
-                    <SidebarTrigger />
+                <main className="askquestions-content flex-1 overflow-hidden relative">
+                    <div className="absolute top-4 left-4 z-20">
+                        <SidebarTrigger />
+                    </div>
                     {children}
                 </main>
             </div>
